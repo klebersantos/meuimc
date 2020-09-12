@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -172,6 +173,11 @@ span {
     text-align: center
 }
 
+.numero {
+    font-size: 31px;
+    font-weight: 700;
+}
+
 .red {
     color: red
 }
@@ -239,4 +245,44 @@ span {
     text-align: left;
     background: #11998e;
     color: var(--bg-center)
+}
+
+.result a.salvar {
+    cursor: pointer;
+    background: #11998e;
+    padding: 10px 14px 7px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #fff;
+    margin: 4px;
+    list-style-type: none;
+    transition: 0.5s;
+}
+
+
+.result a.salvar:hover {
+    background: #0dad4b;
+}
+
+.theList {
+    display: flex;
+    max-width: 80%;
+    margin: 40px auto;
+    flex-wrap: wrap;
+}
+
+.theList li {
+    background: #11998e;
+    padding: 10px 14px 7px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #fff;
+    margin: 4px;
+    display: flex;
+    list-style-type: none;
+    cursor: pointer;
+}
+
+time {
+    margin: 0 15px;
 }

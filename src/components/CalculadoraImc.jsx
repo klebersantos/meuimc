@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import TodoItems from "./TodoItems";
 
 
 function MessageIMC(result) {
@@ -16,14 +17,17 @@ class CalculadoraImc extends Component {
         this.state = {
             massa: 0,
             altura: 0,
-            disabled: false,
-            valor: ""
+            items: []
         }
 
         this.handleMassa = this.handleMassa.bind(this);
         this.handleAltura = this.handleAltura.bind(this);
         this.clickImc = this.clickImc.bind(this);
+
+        this.addItem = this.addItem.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
     }
+
 
     handleMassa(event) {
         this.setState({ massa: event.target.value })
@@ -38,6 +42,48 @@ class CalculadoraImc extends Component {
         const { massa, altura } = this.state;
         let valor = massa / (altura * altura)
         this.setState({ valor })
+        
+        var messageIMC = MessageIMC(valor);
+        this.setState({ messageIMC })
+
+
+    }
+
+    addItem(e) {
+        const { massa, altura } = this.state;
+        let valor = massa / (altura * altura)
+        this.setState({ valor })
+
+
+        var messageIMC = MessageIMC(valor);
+        this.setState({ messageIMC })
+
+
+        var newItem = {
+            text: this.state.valor,
+            msgIMC: this.state.messageIMC,
+            key: Date.now()
+        };
+        this.setState((prevState) => {
+            return {
+                items: prevState.items.concat(newItem)
+            };
+        });
+            
+        console.log(this.state.messageIMC);
+        e.preventDefault();
+
+    }
+
+    deleteItem(key) {
+        var filteredItems = this.state.items.filter(function (item) {
+            return (item.key !== key);
+        });
+
+        this.setState({
+            items: filteredItems
+        });
+
     }
 
     render() {
@@ -69,7 +115,7 @@ class CalculadoraImc extends Component {
                                     name="peso" />
                             </div>
                             <div className="inpt">
-                                <label htmlFor="input2" className="labs">Altura (cm)</label>
+                                <label htmlFor="input2" className="labs">Altura (m)</label>
                                 <input
                                     id="input2"
                                     onChange={this.handleAltura}
@@ -88,7 +134,7 @@ class CalculadoraImc extends Component {
 
                         {
                             valor > 0 &&
-                            <span id="result" className="result">
+                            <span id="result" className="result numero">
                                 {parseFloat(result).toFixed(2)}
                             </span>
                         }
@@ -96,10 +142,13 @@ class CalculadoraImc extends Component {
                         {
                             result > 0 &&
                             <span className="result">
-
-                                {messageIMC}
+                                {messageIMC} <button type="button" onClick={this.addItem} className="salvar">Salvar</button>
                             </span>
                         }
+
+                            <span className="result">
+                                <TodoItems entries={this.state.items} delete={this.deleteItem} /> 
+                            </span>
 
                         <table id="customers">
                             <thead>
