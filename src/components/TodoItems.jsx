@@ -16,6 +16,7 @@ class TodoItems extends Component {
     createTask(item) {
         // const date = new Date();
         Moment.globalFormat = 'D MMM YYYY';
+        
         return (
             <li
                 key={item.key}>

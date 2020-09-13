@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TodoItems from "./TodoItems";
+import localStorage from "localStorage";
 
 
 function MessageIMC(result) {
@@ -46,10 +47,9 @@ class CalculadoraImc extends Component {
         var messageIMC = MessageIMC(valor);
         this.setState({ messageIMC })
 
-
     }
 
-    addItem(e) {
+    addItem = (e) => {
         const { massa, altura } = this.state;
         let valor = massa / (altura * altura)
         this.setState({ valor })
@@ -57,23 +57,47 @@ class CalculadoraImc extends Component {
 
         var messageIMC = MessageIMC(valor);
         this.setState({ messageIMC })
+        
 
 
-        var newItem = {
-            text: this.state.valor,
-            msgIMC: this.state.messageIMC,
-            key: Date.now()
-        };
-        this.setState((prevState) => {
-            return {
-                items: prevState.items.concat(newItem)
-            };
+        // var newItem = {
+        //     text: this.state.valor,
+        //     msgIMC: this.state.messageIMC,
+        //     key: Date.now()
+        // };
+        // this.setState((prevState) => {
+        //     return {
+        //         items: prevState.items.concat(newItem)
+        //     };
+        // });
+        
+        let newItem = {text: this.state.valor, key: Date.now(), msgIMC: this.state.messageIMC} 
+        this.setState({
+            items: [newItem].concat(this.state.items), 
         });
+
+        
+
+        localStorage.setItem('newItem', JSON.stringify(newItem).concat(this.state.items));
+        // localStorage.getItem("items");
             
+        // localStorage.setItem('items', JSON.stringify([newItem].concat(messageIMC)));
+        
+        // localStorage.setItem("items", JSON.stringify(this.state.messageIMC));
+
+        // localStorage.setItem( 'items', JSON.stringify(JSON.stringify(this.state.messageIMC) ));
+        
+
         console.log(this.state.messageIMC);
         e.preventDefault();
 
     }
+
+
+    componentDidMount() {
+
+    }
+
 
     deleteItem(key) {
         var filteredItems = this.state.items.filter(function (item) {
@@ -84,13 +108,18 @@ class CalculadoraImc extends Component {
             items: filteredItems
         });
 
+        localStorage.setItem("items", JSON.stringify(this.state.items));
+        console.log(this.state.items);
+
     }
+
+
 
     render() {
         const valor = this.state.valor;
         const result = Number.isNaN(parseFloat(valor)) ? "0" : valor;
         const messageIMC = MessageIMC(result);
-
+        
         return (
             <>
                 <div className="centro" >
@@ -146,9 +175,11 @@ class CalculadoraImc extends Component {
                             </span>
                         }
 
-                            <span className="result">
-                                <TodoItems entries={this.state.items} delete={this.deleteItem} /> 
-                            </span>
+
+                       
+                        <span className="result">
+                            local aqui<TodoItems entries={this.state.items} delete={this.deleteItem} /> 
+                        </span>
 
                         <table id="customers">
                             <thead>
