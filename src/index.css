@@ -280,7 +280,11 @@ span {
     margin: 4px;
     display: flex;
     list-style-type: none;
+}
+
+.theList li a {
     cursor: pointer;
+
 }
 
 time {

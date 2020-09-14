@@ -8,7 +8,15 @@ class TodoItems extends Component {
     constructor(props) {
         super();
         this.createTask = this.createTask.bind(this);
+        this.gravar = this.gravar.bind(this);
     }
+
+    
+    gravar(key) {
+        localStorage.getItem('items', key);
+        console.log(localStorage)
+    }
+
 
     delete(key) {
         this.props.delete(key);
@@ -16,6 +24,7 @@ class TodoItems extends Component {
     createTask(item) {
         // const date = new Date();
         Moment.globalFormat = 'D MMM YYYY';
+        
         
         return (
             <li
@@ -26,7 +35,7 @@ class TodoItems extends Component {
                 <a onClick={() => this.delete(item.key)}>
                     <i className="far fa-times-circle"></i>
                 </a>
-                
+                <a onClick={this.gravar}>gravarrrrrr</a>
             </li>
         )
 
