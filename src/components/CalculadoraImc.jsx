@@ -62,7 +62,8 @@ class CalculadoraImc extends Component {
             items: [newItem].concat(this.state.items),
         });
 
-       localStorage.setItem('items', JSON.stringify([newItem].concat(this.state.items)));
+        localStorage.setItem('newItem', JSON.stringify([newItem].concat(this.state.items)));
+
       
        console.log(localStorage);
         console.log(this.state.messageIMC);
@@ -70,16 +71,20 @@ class CalculadoraImc extends Component {
     }
 
 
+
+
     deleteItem(key) {
         var filteredItems = this.state.items.filter(function (item) {
             return (item.key !== key);
         });
 
+
         this.setState({
-            items: filteredItems
+            items:  filteredItems,
         });
 
-        // localStorage.setItem("newItem", JSON.stringify(this.state.items));
+        localStorage.setItem("newItem", JSON.stringify(filteredItems));
+
         console.log(this.state.items);
 
     }
@@ -91,6 +96,10 @@ class CalculadoraImc extends Component {
         const valor = this.state.valor;
         const result = Number.isNaN(parseFloat(valor)) ? "0" : valor;
         const messageIMC = MessageIMC(result);
+    //    const x = localStorage.getItem('newItem');
+
+
+
         return (
             <>
                 <div className="centro" >
