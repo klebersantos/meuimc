@@ -49,7 +49,7 @@ class CalculadoraImc extends Component {
 
     }
 
-    addItem(e) {
+    addItem() {
         const { massa, altura } = this.state;
         let valor = massa / (altura * altura)
         this.setState({ valor })
@@ -62,16 +62,58 @@ class CalculadoraImc extends Component {
             items: [newItem].concat(this.state.items),
         });
 
-        localStorage.setItem('newItem', JSON.stringify([newItem].concat(this.state.items)));
+        const resultado = localStorage.setItem('newItem', JSON.stringify([newItem].concat(this.state.items)));
 
-      
-       console.log(localStorage);
+        if (resultado) {
+            console.log(resultado);
+
+            resultado.forEach(element => {
+                this.setState(state => {
+                    const items = state.items.concat({ text: element.text, key: Date.now(), msgIMC: element.result.props.children });
+                    return {
+                        items
+                    };
+
+                });
+            });
+        }
+
+
+
+        console.log(localStorage);
         console.log(this.state.messageIMC);
-        e.preventDefault();
+    }
+
+    componentDidMount() {
+        const resultado = JSON.parse(localStorage.getItem("newItem"));
+
+        if (resultado) {
+            console.log(resultado);
+
+            resultado.forEach(element => {
+                this.setState(state => {
+                    const items = state.items.concat({ text: element.text, key: Date.now(), msgIMC: element.messageIMC });
+                    return {
+                        items
+                    };
+
+                });
+            });
+        }
     }
 
 
 
+
+    // deleteItem = (key) => {
+    //     this.setState(state => {
+    //       const filteredItems = state.filteredItems.filter(item => item.key !== key);
+
+    //       return {
+    //         filteredItems,
+    //       };
+    //     });
+    //   };
 
     deleteItem(key) {
         var filteredItems = this.state.items.filter(function (item) {
@@ -80,23 +122,24 @@ class CalculadoraImc extends Component {
 
 
         this.setState({
-            items:  filteredItems,
+            items: filteredItems,
         });
 
         localStorage.setItem("newItem", JSON.stringify(filteredItems));
+
 
         console.log(this.state.items);
 
     }
 
 
-   
+
+
 
     render() {
         const valor = this.state.valor;
         const result = Number.isNaN(parseFloat(valor)) ? "0" : valor;
         const messageIMC = MessageIMC(result);
-    //    const x = localStorage.getItem('newItem');
 
 
 
@@ -156,7 +199,7 @@ class CalculadoraImc extends Component {
                         }
 
                         <span className="result">
-                            local aqui<TodoItems entries={this.state.items} delete={this.deleteItem} />
+                            local aqui <TodoItems entries={this.state.items} delete={this.deleteItem} />
                         </span>
 
                         <table id="customers">

@@ -19,8 +19,6 @@ class TodoItems extends Component {
         Moment.globalFormat = 'D MMM YYYY';
         // localStorage.setItem('newItem', JSON.stringify(item));
 
-
-
         return (
 
             <li
@@ -41,12 +39,11 @@ class TodoItems extends Component {
     render() {
         var todoEntries = this.props.entries;
         var listItems = todoEntries.map(this.createTask)
-        let data = localStorage.getItem('newItem');
 
 
         return (
             <ul className="theList">
-                {listItems}  {data}
+                {listItems}  
             </ul>
         );
     }
